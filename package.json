@@ -1,0 +1,15 @@
+{
+  "name": "campusfix",
+  "version": "0.1.0",
+  "description": "CampusFix initial scaffold — campus maintenance reporting and tracking (see PRD in docs/)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

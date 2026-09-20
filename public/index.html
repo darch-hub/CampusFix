@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusFix (Scaffold)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1>CampusFix</h1>
+    <p>Initial scaffold — report form and issue list UI placeholders per PRD §5.1 / §5.4. API calls return 501 until implemented.</p>
+
+    <section>
+      <h2>Report an Issue</h2>
+      <form id="report-form">
+        <label>Category
+          <select name="category" required>
+            <option>Electrical</option>
+            <option>Plumbing</option>
+            <option>Structural</option>
+            <option>Furniture</option>
+            <option>Cleaning</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Location (predefined list)
+          <select name="location" id="location-select" required></select>
+        </label>
+        <label>Description
+          <textarea name="description" required placeholder="Describe the problem"></textarea>
+        </label>
+        <label>Photo (optional but encouraged)
+          <input type="file" name="photo" accept="image/*" />
+        </label>
+        <label>Urgency
+          <select name="urgency">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Emergency</option>
+          </select>
+        </label>
+        <label><input type="checkbox" name="anonymous" /> Submit anonymously</label>
+        <button type="submit">Submit</button>
+      </form>
+      <p id="form-status"></p>
+    </section>
+
+    <section>
+      <h2>Open Issues</h2>
+      <div>
+        <select id="filter-category"><option value="">All categories</option></select>
+        <select id="filter-status">
+          <option value="">All statuses</option>
+          <option>Reported</option>
+          <option>Acknowledged</option>
+          <option>In Progress</option>
+          <option>Resolved</option>
+        </select>
+        <button id="refresh">Refresh</button>
+      </div>
+      <ul id="issue-list"><li>Loading (stub API)…</li></ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
