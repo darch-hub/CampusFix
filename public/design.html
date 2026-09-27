@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusFix — Design System Preview</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1>Design System Preview</h1>
+    <p class="muted">Tokens + components for the CampusFix v1 prototype. Mobile-first, light-first with dark-mode fallback.</p>
+
+    <section class="card">
+      <h2>Urgency badges (PRD §5.3)</h2>
+      <p>
+        <span class="badge badge-low">Low</span>
+        <span class="badge badge-medium">Medium</span>
+        <span class="badge badge-high">High</span>
+        <span class="badge badge-emergency">Emergency</span>
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Status pills (PRD §5.2)</h2>
+      <p>
+        <span class="pill pill-reported">Reported</span>
+        <span class="pill pill-acknowledged">Acknowledged</span>
+        <span class="pill pill-in-progress">In Progress</span>
+        <span class="pill pill-resolved">Resolved</span>
+      </p>
+      <ul class="timeline">
+        <li class="done"><span class="dot"></span>Reported → Acknowledged</li>
+        <li class="done"><span class="dot"></span>Acknowledged → In Progress</li>
+        <li><span class="dot"></span>In Progress → Resolved (pending reporter confirm)</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Issue cards + overdue flag (PRD §5.4, §5.6)</h2>
+      <ul class="clean">
+        <li class="issue-card">
+          <div class="meta">
+            <span class="badge badge-high">High</span>
+            <span class="pill pill-in-progress">In Progress</span>
+            <span class="muted">#2 · Electrical · Main Hostel - Block A</span>
+          </div>
+          <div>Corridor lights flickering on 2nd floor.</div>
+        </li>
+        <li class="issue-card overdue">
+          <div class="meta">
+            <span class="badge badge-emergency">Emergency</span>
+            <span class="pill pill-reported">Reported</span>
+            <span class="overdue-flag">OVERDUE</span>
+          </div>
+          <div>Leaking pipe in bathroom, Block B.</div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Dashboard stat cards (PRD §5.7)</h2>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num">12</div><div class="label">Open</div></div>
+        <div class="stat-card"><div class="num">34</div><div class="label">Resolved</div></div>
+        <div class="stat-card"><div class="num">18h</div><div class="label">Avg resolution</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">Overdue</div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Buttons + inputs</h2>
+      <p>
+        <button class="btn-primary">Submit report</button>
+        <button>I have this too</button>
+      </p>
+      <label>Example input <input placeholder="Describe the problem" /></label>
+    </section>
+
+    <p><a href="index.html">← Back to app</a></p>
+  </main>
+</body>
+</html>

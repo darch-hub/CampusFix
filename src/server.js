@@ -1,21 +1,37 @@
-const express = require("express");
-const path = require("path");
+import dotenv from "dotenv";
+dotenv.config();
 
-const issuesRouter = require("./routes/issues");
-const adminRouter = require("./routes/admin");
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./auth.js";
+import issuesRouter from "./routes/issues.js";
+import adminRouter from "./routes/admin.js";
+import apiRouter from "./routes/api.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.all("/api/auth/*", toNodeHandler(auth));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
 
-app.get("/api/health", (req, res) => res.json({ status: "ok", service: "campusfix", version: "0.1.0" }));
+app.get("/api/health", (_req, res) => res.json({ status: "ok", service: "campusfix", version: "0.2.0" }));
+app.use("/api", apiRouter);
 app.use("/api/issues", issuesRouter);
 app.use("/api/admin", adminRouter);
 
-if (require.main === module) {
-  app.listen(PORT, () => console.log(`CampusFix scaffold listening on http://localhost:${PORT}`));
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  res.status(err.status || 500).json({ error: err.message || "Internal error" });
+});
+
+if (process.argv[1] === __filename) {
+  app.listen(PORT, () => console.log(`CampusFix listening on http://localhost:${PORT}`));
 }
 
-module.exports = app;
+export default app;

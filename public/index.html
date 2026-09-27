@@ -3,13 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CampusFix (Scaffold)</title>
+  <title>CampusFix</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main>
     <h1>CampusFix</h1>
-    <p>Initial scaffold — report form and issue list UI placeholders per PRD §5.1 / §5.4. API calls return 501 until implemented.</p>
+    <p>Report, track, and manage campus maintenance issues.</p>
+
+    <section>
+      <h2>Sign in</h2>
+      <form id="login-form">
+        <label>Email <input type="email" name="email" required placeholder="you@campusfix.local" /></label>
+        <label>Password <input type="password" name="password" required /></label>
+        <button type="submit">Sign in</button>
+      </form>
+      <p id="auth-status">Not signed in. Demo: admin@campusfix.local / Admin1234!</p>
+      <button id="logout" type="button">Sign out</button>
+    </section>
 
     <section>
       <h2>Report an Issue</h2>
@@ -25,23 +36,23 @@
           </select>
         </label>
         <label>Location (predefined list)
-          <select name="location" id="location-select" required></select>
+          <select name="locationId" id="location-select" required></select>
         </label>
         <label>Description
           <textarea name="description" required placeholder="Describe the problem"></textarea>
         </label>
         <label>Photo (optional but encouraged)
-          <input type="file" name="photo" accept="image/*" />
+          <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" />
         </label>
         <label>Urgency
-          <select name="urgency">
+          <select name="reporterUrgency">
             <option>Low</option>
-            <option>Medium</option>
+            <option selected>Medium</option>
             <option>High</option>
             <option>Emergency</option>
           </select>
         </label>
-        <label><input type="checkbox" name="anonymous" /> Submit anonymously</label>
+        <label><input type="checkbox" name="isAnonymous" value="true" /> Submit anonymously</label>
         <button type="submit">Submit</button>
       </form>
       <p id="form-status"></p>
@@ -60,7 +71,7 @@
         </select>
         <button id="refresh">Refresh</button>
       </div>
-      <ul id="issue-list"><li>Loading (stub API)…</li></ul>
+      <ul id="issue-list"><li>Sign in to load issues…</li></ul>
     </section>
   </main>
   <script src="app.js"></script>

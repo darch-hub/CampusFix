@@ -75,22 +75,29 @@ Out of scope for v1: separate Maintenance Staff role/workflow, push notification
 
 Assumptions: all users have institutional login; building/location list is maintained by admins; admins have bandwidth to triage without a dedicated maintenance tier initially.
 
-## What Is Currently Implemented (Initial Scaffold)
+## What Is Currently Implemented (v0.2.0 stack)
 
-This is an initial scaffold only. No PRD feature is fully implemented yet.
+Stack: Node + Express (local, `npm start`), PostgreSQL on this device,
+Better Auth (email+password sessions, `reporter`/`admin` roles),
+Cloudflare R2 for photos (S3-compatible), Resend for email (stubbed to
+console when unconfigured). No Supabase, no Vercel.
 
 Implemented:
-- Express server serving static frontend and stub API routes (`GET /api/health` works; other endpoints return `501 Not Implemented` with TODOs)
-- Domain models as documented schemas (`Issue`, `User`) matching PRD fields
-- Predefined location list placeholder (`src/config/locations.js`)
-- Static mobile-first frontend placeholder (`public/`) with report form fields and issue list/filter UI matching PRD, wired to stub APIs
-- Project structure, `.gitignore`, `package.json`, `data/` placeholder for future storage/uploads
+- Postgres schema (`scripts/schema.sql`, applied by `npm run db:migrate`)
+  covering Better Auth tables + `locations/issues/upvotes/status_events/notifications`
+- Better Auth wired at `/api/auth/*` with role field; `requireAuth`/`requireAdmin` guards
+- Real issue APIs: filtered public list with anonymity masking + signed
+  photo URLs, multipart report submit, upvote toggle, reporter confirm/reopen
+- Admin APIs: legal status transitions + urgency override with reporter
+  notifications (in-app row + Resend email), urgency-sorted queue, dashboard
+  aggregates, location management
+- Overdue logic (`src/utils/overdue.js`): Emergency 4h, High 24h, Medium 72h, Low 7d
+- Design system (`public/styles.css`) + preview (`public/design.html`)
+- Seed script (`npm run db:seed`): demo admin/reporter accounts, locations, sample issues
 
-Not implemented yet:
-- Auth (institutional login), database persistence, photo upload storage
-- Full issue CRUD, status transitions, confirm/reopen logic, upvotes
-- Notifications (in-app + email), overdue calculation, admin dashboard queries
-- Admin location management
+Not configured out of the box (needs your keys in `.env`, see `.env.example`):
+- R2 bucket + API token (photo upload skipped with a warning until set)
+- Resend API key (emails log to console until set)
 
 ## Project Structure
 
