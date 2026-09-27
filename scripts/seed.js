@@ -43,6 +43,8 @@ async function main() {
     { category: "Furniture", location: "Science Building - Lab 101", description: "Broken lab stool", reporterUrgency: "Low", status: "Resolved", reporter: bola },
   ];
   for (const s of samples) {
+    const backdated = s.status === "Resolved";
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 3600 * 1000);
     const rows = await db.insert(issues).values({
       category: s.category,
       locationId: byName[s.location],
@@ -50,6 +52,8 @@ async function main() {
       reporterUrgency: s.reporterUrgency,
       reporterId: s.reporter.id,
       status: s.status,
+      createdAt: backdated ? twoDaysAgo : new Date(),
+      updatedAt: backdated ? twoDaysAgo : new Date(),
       resolvedAt: s.status === "Resolved" ? new Date() : null,
     }).returning();
     await db.insert(statusEvents).values({ issueId: rows[0].id, fromStatus: null, toStatus: s.status, actorId: admin.id });

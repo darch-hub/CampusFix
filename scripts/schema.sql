@@ -104,3 +104,9 @@ CREATE INDEX IF NOT EXISTS issues_updated_idx ON issues(updated_at);
 CREATE INDEX IF NOT EXISTS upvotes_issue_idx ON upvotes(issue_id);
 CREATE INDEX IF NOT EXISTS events_issue_idx ON status_events(issue_id);
 CREATE INDEX IF NOT EXISTS notif_user_idx ON notifications(user_id, read_at);
+
+-- Better Auth admin plugin columns (idempotent upgrades)
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS banned BOOLEAN DEFAULT FALSE;
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS ban_reason TEXT;
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS ban_expires TIMESTAMP;
+ALTER TABLE session ADD COLUMN IF NOT EXISTS impersonated_by TEXT;
