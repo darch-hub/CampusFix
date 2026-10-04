@@ -11,7 +11,7 @@
 # so no frontend code change is needed.
 [[redirects]]
   from = "/api/*"
-  to = "https://campusfix-l3h2.onrender.com"
+  to = "https://campusfix-l3h2.onrender.com/api/:splat"
   status = 200
   force = true
 
