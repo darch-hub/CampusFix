@@ -10,7 +10,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sql = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  ...(process.env.DATABASE_URL?.includes("sslmode=require") ||
+  process.env.NODE_ENV === "production"
+    ? { ssl: { rejectUnauthorized: false } }
+    : {}),
+});
 await pool.query(sql);
 console.log("Migrate done.");
 await pool.end();

@@ -105,3 +105,25 @@ ul.clean { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; 
     --muted: #9aa7bd; --border: #2a3550;
   }
 }
+
+/* auth-first shell + visual hierarchy (dark palette kept) */
+[hidden] { display: none !important; }
+.small { font-size: 0.8rem; }
+.error { color: var(--overdue); font-weight: 600; }
+.topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.7rem 0.9rem;
+}
+.brand { font-size: 1.1rem; }
+.auth-card { max-width: 430px; margin: 6vh auto 0; }
+.filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.filters select { flex: 1; min-width: 110px; }
+.filters button { flex: none; }
+label.check { grid-template-columns: auto 1fr; align-items: center; }
+label.check input { width: auto; }
+.issue-title { font-size: 1rem; }
+.issue-card .desc { overflow-wrap: anywhere; }
+.issue-card .actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.issue-card .actions select { width: auto; flex: none; padding: 0.5rem; }
+#admin-stats { margin-top: 0.5rem; }

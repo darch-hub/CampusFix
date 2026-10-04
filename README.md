@@ -79,7 +79,7 @@ Assumptions: all users have institutional login; building/location list is maint
 
 Stack: Node + Express (local, `npm start`), PostgreSQL on this device,
 Better Auth (email+password sessions, `reporter`/`admin` roles),
-Cloudflare R2 for photos (S3-compatible), Resend for email (stubbed to
+Cloudinary for photos (free plan), Resend for email (stubbed to
 console when unconfigured). No Supabase, no Vercel.
 
 Implemented:
@@ -96,7 +96,7 @@ Implemented:
 - Seed script (`npm run db:seed`): demo admin/reporter accounts, locations, sample issues
 
 Not configured out of the box (needs your keys in `.env`, see `.env.example`):
-- R2 bucket + API token (photo upload skipped with a warning until set)
+- Cloudinary cloud name + API key/secret (photo upload skipped with a warning until set)
 - Resend API key (emails log to console until set)
 
 ## Project Structure

@@ -11,5 +11,8 @@ export const auth = betterAuth({
   emailAndPassword: { enabled: true, minPasswordLength: 8 },
   user: { additionalFields: { role: { type: "string", defaultValue: "reporter", required: false } } },
   plugins: [admin({ defaultRole: "reporter", adminRoles: ["admin"] })],
-  trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:3000"],
+  trustedOrigins: [
+    process.env.BETTER_AUTH_URL || "http://localhost:3000",
+    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+  ],
 });

@@ -4,7 +4,7 @@ import { eq, and, desc, sql } from "drizzle-orm";
 import { db } from "../db/index.js";
 import { issues, locations, upvotes, statusEvents, notifications, user, CATEGORIES, URGENCIES } from "../db/schema.js";
 import { requireAuth } from "../middleware/auth.js";
-import { uploadPhoto, isR2Configured, getPhotoUrl } from "../storage/r2.js";
+import { uploadPhoto, isCloudinaryConfigured, getPhotoUrl } from "../storage/cloudinary.js";
 import { effectiveUrgency, isOverdue } from "../utils/overdue.js";
 
 const router = Router();
@@ -75,7 +75,7 @@ router.get(
 
 async function getPhotoUrlSafe(key) {
   try {
-    const { getPhotoUrl } = await import("../storage/r2.js");
+    const { getPhotoUrl } = await import("../storage/cloudinary.js");
     return await getPhotoUrl(key);
   } catch {
     return null;
@@ -97,8 +97,8 @@ router.post(
 
     let photoKey = null;
     if (req.file) {
-      if (!isR2Configured()) {
-        console.warn("[r2] Photo skipped — R2 not configured. Set R2_* in .env.");
+      if (!isCloudinaryConfigured()) {
+        console.warn("[cloudinary] Photo skipped — Cloudinary not configured. Set CLOUDINARY_* in .env.");
       } else {
         photoKey = await uploadPhoto(req.file.buffer, req.file.mimetype);
       }

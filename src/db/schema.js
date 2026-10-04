@@ -69,7 +69,7 @@ export const issues = pgTable("issues", {
   category: text("category").notNull(),
   locationId: integer("location_id").notNull().references(() => locations.id),
   description: text("description").notNull(),
-  photoKey: text("photo_key"), // R2 object key (null = no photo)
+  photoKey: text("photo_key"), // Cloudinary delivery URL (null = no photo)
   reporterUrgency: text("reporter_urgency").notNull().default("Medium"),
   adminUrgency: text("admin_urgency"),
   isAnonymous: boolean("is_anonymous").notNull().default(false),

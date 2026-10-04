@@ -1,0 +1,22 @@
+# CampusFix frontend on Netlify, API proxied to Render backend.
+# 1. Deploy Render first, get https://<name>.onrender.com
+# 2. Replace REPLACE-WITH-RENDER-URL below with that URL, commit + push.
+# 3. Netlify will auto-deploy on git push.
+[build]
+  publish = "public"
+  command = ""
+
+# Proxy all API + auth calls to Render (same-origin for the browser, no CORS issues).
+# Must stay BEFORE the SPA fallback. Frontend uses relative /api/* (public/app.js:2),
+# so no frontend code change is needed.
+[[redirects]]
+  from = "/api/*"
+  to = "https://REPLACE-WITH-RENDER-URL/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for the static UI.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -8,71 +8,91 @@
 </head>
 <body>
   <main>
-    <h1>CampusFix</h1>
-    <p>Report, track, and manage campus maintenance issues.</p>
-
-    <section>
-      <h2>Sign in</h2>
-      <form id="login-form">
-        <label>Email <input type="email" name="email" required placeholder="you@campusfix.local" /></label>
-        <label>Password <input type="password" name="password" required /></label>
-        <button type="submit">Sign in</button>
-      </form>
-      <p id="auth-status">Not signed in. Demo: admin@campusfix.local / Admin1234!</p>
-      <button id="logout" type="button">Sign out</button>
-    </section>
-
-    <section>
-      <h2>Report an Issue</h2>
-      <form id="report-form">
-        <label>Category
-          <select name="category" required>
-            <option>Electrical</option>
-            <option>Plumbing</option>
-            <option>Structural</option>
-            <option>Furniture</option>
-            <option>Cleaning</option>
-            <option>Other</option>
-          </select>
-        </label>
-        <label>Location (predefined list)
-          <select name="locationId" id="location-select" required></select>
-        </label>
-        <label>Description
-          <textarea name="description" required placeholder="Describe the problem"></textarea>
-        </label>
-        <label>Photo (optional but encouraged)
-          <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" />
-        </label>
-        <label>Urgency
-          <select name="reporterUrgency">
-            <option>Low</option>
-            <option selected>Medium</option>
-            <option>High</option>
-            <option>Emergency</option>
-          </select>
-        </label>
-        <label><input type="checkbox" name="isAnonymous" value="true" /> Submit anonymously</label>
-        <button type="submit">Submit</button>
-      </form>
-      <p id="form-status"></p>
-    </section>
-
-    <section>
-      <h2>Open Issues</h2>
-      <div>
-        <select id="filter-category"><option value="">All categories</option></select>
-        <select id="filter-status">
-          <option value="">All statuses</option>
-          <option>Reported</option>
-          <option>Acknowledged</option>
-          <option>In Progress</option>
-          <option>Resolved</option>
-        </select>
-        <button id="refresh">Refresh</button>
+    <!-- Auth-first: unauthenticated users land here and nowhere else. -->
+    <div id="view-auth">
+      <div class="auth-card card">
+        <h1>CampusFix</h1>
+        <p class="muted">Sign in to report and track campus maintenance issues.</p>
+        <form id="login-form">
+          <label>Email <input type="email" name="email" required placeholder="you@campusfix.local" autocomplete="username" /></label>
+          <label>Password <input type="password" name="password" required autocomplete="current-password" /></label>
+          <button type="submit" class="btn-primary">Sign in</button>
+        </form>
+        <p id="auth-error" class="error"></p>
+        <p class="muted small">Demo accounts — admin: admin@campusfix.local / Admin1234! · reporter: ada@campusfix.local / Reporter123!</p>
       </div>
-      <ul id="issue-list"><li>Sign in to load issues…</li></ul>
-    </section>
+    </div>
+
+    <!-- Post-sign-in interface. Role-specific parts toggle from app.js. -->
+    <div id="view-app" hidden>
+      <header class="topbar">
+        <div>
+          <strong class="brand">CampusFix</strong>
+          <div class="muted small" id="user-chip"></div>
+        </div>
+        <button id="logout" type="button">Sign out</button>
+      </header>
+
+      <section class="card" id="report-section">
+        <h2>Report an Issue</h2>
+        <form id="report-form">
+          <label>Category
+            <select name="category" required>
+              <option>Electrical</option>
+              <option>Plumbing</option>
+              <option>Structural</option>
+              <option>Furniture</option>
+              <option>Cleaning</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>Location (predefined list)
+            <select name="locationId" id="location-select" required></select>
+          </label>
+          <label>Description
+            <textarea name="description" required placeholder="Describe the problem"></textarea>
+          </label>
+          <label>Photo (optional but encouraged)
+            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" />
+          </label>
+          <label>Urgency
+            <select name="reporterUrgency">
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+              <option>Emergency</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" name="isAnonymous" value="true" /> Submit anonymously</label>
+          <button type="submit" class="btn-primary">Submit report</button>
+        </form>
+        <p id="form-status"></p>
+      </section>
+
+      <section class="card" id="browse-section">
+        <h2>Open Issues</h2>
+        <div class="filters">
+          <select id="filter-category"><option value="">All categories</option></select>
+          <select id="filter-status">
+            <option value="">All statuses</option>
+            <option>Reported</option>
+            <option>Acknowledged</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+          </select>
+          <button id="refresh">Refresh</button>
+        </div>
+        <ul id="issue-list" class="clean"><li class="muted">Loading…</li></ul>
+      </section>
+
+      <section class="card" id="admin-section" hidden>
+        <h2>Admin queue</h2>
+        <p class="muted small">Emergency / High surface first. Advance status or override urgency per report.</p>
+        <ul id="admin-list" class="clean"><li class="muted">Loading…</li></ul>
+        <h2>Dashboard</h2>
+        <div id="admin-stats" class="stat-grid"></div>
+      </section>
+    </div>
   </main>
   <script src="app.js"></script>
 </body>
