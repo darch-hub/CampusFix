@@ -180,3 +180,65 @@ $("filter-category").innerHTML = '<option value="">All categories</option>' +
   if (user) await enterApp(user);
   else showView("auth");
 })();
+
+// ---- PWA: service worker + visible install UI ----
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  });
+}
+
+const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = () =>
+  window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+
+let deferredPrompt = null;
+
+function refreshInstallUI() {
+  const banner = $("install-banner"), top = $("install-btn-top"),
+    btn = $("install-btn"), hint = $("install-hint");
+  if (!banner || isStandalone()) {
+    if (banner) banner.hidden = true;
+    if (top) top.hidden = true;
+    return;
+  }
+  if (deferredPrompt) {
+    hint.textContent = "Add it to your home screen for quick access.";
+    btn.hidden = false;
+    banner.hidden = false;
+    top.hidden = false;
+  } else if (isIos()) {
+    hint.textContent = "Tap Share, then \u201cAdd to Home Screen\u201d.";
+    btn.hidden = true;
+    banner.hidden = false;
+    top.hidden = true;
+  } else {
+    banner.hidden = true;
+    top.hidden = true;
+  }
+}
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  refreshInstallUI();
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredPrompt = null;
+  refreshInstallUI();
+});
+
+async function promptInstall() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice.catch(() => {});
+  deferredPrompt = null;
+  refreshInstallUI();
+}
+
+$("install-btn").addEventListener("click", promptInstall);
+$("install-btn-top").addEventListener("click", promptInstall);
+$("install-dismiss").addEventListener("click", () => { $("install-banner").hidden = true; });
+
+refreshInstallUI();
