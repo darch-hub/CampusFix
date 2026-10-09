@@ -19,6 +19,10 @@ const PORT = process.env.PORT || 3000;
 
 app.all("/api/auth/*", toNodeHandler(auth));
 app.use(express.json());
+// Digital Asset Links for the Android TWA (express.static ignores dotfiles).
+app.get("/.well-known/assetlinks.json", (_req, res) =>
+  res.sendFile(path.join(__dirname, "..", "public", ".well-known", "assetlinks.json"))
+);
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.get("/api/health", (_req, res) => res.json({ status: "ok", service: "campusfix", version: "0.2.0" }));

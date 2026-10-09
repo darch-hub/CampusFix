@@ -3,3 +3,8 @@ node_modules/
 drizzle/
 data/uploads/*
 !data/.gitkeep
+# Android build outputs + signing (keystore/passwords never committed)
+dist-android/
+*.keystore
+*.jks
+signing.env
